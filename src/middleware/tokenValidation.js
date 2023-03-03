@@ -22,8 +22,8 @@ export default async function tokenValidation (req, res, next){
     }
 }
 
-function saveUserData (){
-    const userData = connectionDB.query(`SELECT * FROM users WHERE token=${token} `)
+async function saveUserData (){
+    const userData = await connectionDB.query(`SELECT * FROM users WHERE token=${token} `)
     if (!userData){
         return res.sendStatus(404);
     }

@@ -1,15 +1,22 @@
 import { connectionDB } from "../database.js"
 
-export async function usersIdController (req, res){
-    // const {name, email, password} = req.body
+export async function usersDataController (req, res){
+    const userData = res.locals.userData
 
     try{
-        const emailValidation = await connectionDB.query(`SELECT (email) FROM users WHERE email=${email}`)
-        if (emailValidation){
-            return res.status(409)
-        }
-        await connectionDB.query(`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${encryptedPassword}) `)
-        return res.sendStatus(201)
+        const userMyData = await connectionDB.query(`SELECT (users.id, users.name, SUM(urls.timesAccessed) AS visitCount),
+            JSON_AGG(JSON_BUILD_OBJECT(
+                'id', urls.id,
+                'shortUrl', urls.urlShort,
+                'url', urls.url
+                'visitCount', urls.timesAccessed))
+                AS "ShortenedUrls
+            FROM users LEFT JOIN urls ON users.id = urls.userId
+            WHERE users.id = ${userData.id}
+            GROUP BY usersId`
+        )
+        
+        return res.status(200).send(userMyData)
     }catch (err){
         return res.status(500).send(err.message)
     }
