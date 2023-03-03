@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const {Pool} = pkg
+const {Pool} = pkg;
 
 const configDatabase = {
     connectionString: process.env.DATABASE_URL,

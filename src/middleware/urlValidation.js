@@ -7,10 +7,7 @@ export default async function urlValidation(req, res, rext){
 
     if (urlError){
         const errors = urlError.error.details.map(({message}) => message);
-        res.status(422).send(errors);
-        return;
-    } else{
-        res.status(201);
+        return res.status(422).send(errors);
     }
 
     next()

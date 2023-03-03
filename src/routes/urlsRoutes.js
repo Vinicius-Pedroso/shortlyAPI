@@ -3,11 +3,11 @@ import { accessUrlShort, deleteUrl, getUrlById, urlShortlyGenerator } from '../c
 import tokenValidation from '../middleware/tokenValidation';
 import urlValidation from '../middleware/urlValidation';
 
-const urlsRouter = Router()
+const urlsRouter = Router();
 
-urlsRouter.post("/urls/shorten", urlValidation, tokenValidation, urlShortlyGenerator)
-urlsRouter.get("/urls/:id", getUrlById)
-urlsRouter.get("/urls/open/:shortUrl", accessUrlShort)
-urlsRouter.delete("/urls/:id", tokenValidation, deleteUrl)
+urlsRouter.post("/urls/shorten", urlValidation, tokenValidation, urlShortlyGenerator);
+urlsRouter.get("/urls/:id", getUrlById);
+urlsRouter.get("/urls/open/:shortUrl", accessUrlShort);
+urlsRouter.delete("/urls/:id", tokenValidation, deleteUrl);
 
 export default urlsRouter;
