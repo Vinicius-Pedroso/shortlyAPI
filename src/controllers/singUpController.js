@@ -13,6 +13,6 @@ export async function signUpController (req, res){
         await connectionDB.query(`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${encryptedPassword}) `)
         return res.sendStatus(201)
     }catch (err){
-        return res.sendStatus(500)
+        res.status(500).send(err.message)
     }
 }

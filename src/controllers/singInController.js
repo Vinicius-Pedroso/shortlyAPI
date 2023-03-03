@@ -15,7 +15,7 @@ export async function signInController (req, res){
         }
         
     }catch (err){
-        return res.sendStatus(500)
+        res.status(500).send(err.message)
     }
     
 }
