@@ -2,13 +2,20 @@ import { connectionDB } from "../database.js"
 import { v4 as uuidV4 } from "uuid";
 
 export async function signInController (req, res){
-    const {email, password} = req.body
+    const userData = res.locals.user ;
     const token = uuidV4();
 
     try{
-        await connectionDB.query(`SELECT (email, password) FROM users WHERE email=${email}, password=${password} `)
-        return res.sendStatus(201)
+        const existSession = await connectionDB.query(`SELECT userId FROM sessions WHERE userId=${userData.id}`)
+        if (!existSession){
+            await connectionDB.query(`INSERT INTO sessions (userId, token) VALUES (${userData.id}, ${token})`)
+        }else {
+            await connectionDB.query(`UPDATE sessions SET token=${token} WHERE userId=${userData.id};`)
+            return res.status(200).send(token);
+        }
+        
     }catch (err){
         return res.sendStatus(500)
     }
+    
 }

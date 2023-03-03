@@ -16,13 +16,15 @@ export default async function signInValidation (req, res, next){
     try {
         const userExist = await connectionDB.query(`SELECT email FROM users WHERE email = ${signInData.email}`)
         if (!userExist){
-            return res.sendStatus(404)
+            return res.sendStatus(401)
         }
 
         const passwordCheck = bcrypt.compareSync(signInData.password, userExist.password);
         if (!passwordCheck) {
             return res.sendStatus(401);
         }
+        res.locals.user = userExist;
+
         next()
     
     }catch{
