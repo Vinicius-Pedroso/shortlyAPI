@@ -6,6 +6,8 @@ export async function urlShortlyGenerator (req, res){
     const urlShort = nanoid();
     const userId = res.locals.user.userId;
 
+    //pesquisar o uso de reqbody vs res.locals
+
     try{
         await connectionDB.query(`INSERT INTO urls (userId, urlShort, url) VALUES (${userId}, ${urlShort}, ${url})`);
         return res.status(201).send(urlShort);
